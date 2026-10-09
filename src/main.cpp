@@ -8,23 +8,29 @@ using namespace std;
 
 int main() {
     Player p(100, 50);
-    //cout << "HP: " << p.getHP() << endl;
-    //cout << "Damage: " << p.getDamage() << endl;
+    int sub = 1;
+    int attempts = 0;
 
-    Player t(100, 20);
-    t.takeDamage(70);
-    cout << t.getHP() << endl;   // debe dar 30
-    t.restoreHP();
-    cout << t.getHP() << endl;   // debe dar 100
+    while (sub <= 3 && attempts < 100){
+        attempts ++;
+        p.restoreHP();
+        cout << "subWave " << sub << endl;
 
-    /*vector<Enemy> enemies;
-    enemies.emplace_back(50,15);
-    enemies.emplace_back(50,20);
-    enemies.emplace_back(50,30);
-    
-    if (fightWave(p, enemies)) {
-        cout << "You won." << endl;
-    } else {
-        cout << "Enemies won." << endl;
-    }*/
+        vector<Enemy> enemies;
+        enemies.emplace_back(100, 40*sub);
+
+        if (fightWave(p, enemies)) {
+            sub ++;
+        } else {
+            if (sub > 1){
+                sub --;
+            }
+        }
+    }
+
+        if(sub > 3){
+            cout << "Dungeon cleared." << endl;
+        } else {
+            cout << "Gave up." << endl;
+        }
 }
