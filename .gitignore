@@ -1,0 +1,29 @@
+# Object and library files
+*.o
+*.obj
+*.so
+*.a
+*.dll
+
+# Executables
+*.exe
+*.out
+dungeon_explorer
+
+# Build directory
+build/
+bin/
+obj/
+
+# Code::Blocks project and layout files
+*.cbp
+*.layout
+*.depend
+
+# IDE and editor settings
+.vscode/
+.idea/
+
+# Operating system files
+.DS_Store
+Thumbs.db
