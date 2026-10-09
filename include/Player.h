@@ -7,8 +7,10 @@ public:
     int getDamage() const;
     void takeDamage(int amount);
     bool isAlive() const;
+    void restoreHP();
 private:
     int HP;
+    int maxHP;
     int Damage;
 };
 #endif // PLAYER_H
