@@ -5,6 +5,8 @@ public:
     Player(int HP, int Damage);
     int getHP() const;
     int getDamage() const;
+    void takeDamage(int amount);
+    bool isAlive() const;
 private:
     int HP;
     int Damage;
