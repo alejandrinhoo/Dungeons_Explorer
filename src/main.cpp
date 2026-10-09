@@ -1,29 +1,46 @@
 #include <iostream>
+#include <vector>
+#include <string>
 #include "Player.h"
 #include "Enemy.h"
 using namespace std;
+
+int firstAlive(const vector<Enemy>& enemies){
+    for (size_t i = 0; i < enemies.size(); i++){
+        if (enemies[i].isAlive()){
+            return i;
+        }
+    }
+    return -1;
+}
+
 int main() {
     Player p(100, 20);
-    cout << "HP: " << p.getHP() << endl;
-    cout << "Damage: " << p.getDamage() << endl;
+    //cout << "HP: " << p.getHP() << endl;
+    //cout << "Damage: " << p.getDamage() << endl;
 
-    Enemy e(20, 20);
-    cout << "Enemy HP: " << e.getHP() << endl;
-    cout << "Enemy Damage: " << e.getDamage() << endl;
-
-    while (e.isAlive() && p.isAlive()){
-        e.takeDamage(p.getDamage()); //Turno del jugador
-        cout << "Player attacks for " << p.getDamage() << " damage." << endl;
-        if (e.isAlive()) {
-            p.takeDamage(e.getDamage()); //Turno del enemigo
-            cout << "Enemy attacks player for " << e.getDamage() << " damage." << endl;
+    vector<Enemy> enemies;
+    enemies.emplace_back(100,15);
+    enemies.emplace_back(100,20);
+    enemies.emplace_back(100,30);
+    while (p.isAlive() && firstAlive(enemies) != -1){
+        int target = firstAlive(enemies);
+        enemies[target].takeDamage(p.getDamage());
+        cout << "Player attacks " << target + 1 << " for " << p.getDamage() << " damage." << endl;
+        for (size_t j = 0; j < enemies.size(); j++){
+            if (enemies[j].isAlive() && p.isAlive()){
+                p.takeDamage(enemies[j].getDamage());
+                cout << "Enemy " << j+1 << " attacks Player for " << enemies[j].getDamage() << " damage." << endl;
+            }
         }
-    cout << "Player HP: " << p.getHP() << endl;
-    cout << "Enemy HP: " << e.getHP() << endl;
+        cout << "Player HP: " << p.getHP() << endl;
+        for (size_t i = 0; i < enemies.size(); i++){
+            cout << "Enemy " << i+1 << " HP: " << enemies[i].getHP() << endl;
+        }
     }
-    if (e.isAlive()) {
-        cout << "Enemy won" << endl;
+    if (p.isAlive()){
+        cout << "You won." << endl;
     } else {
-        cout << "You won" << endl;
+        cout << "Enemies won." << endl;
     }
 }
