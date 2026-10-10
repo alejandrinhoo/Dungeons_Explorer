@@ -6,23 +6,29 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "Wave.h"
+#include "Config.h"
 using namespace std;
 
 int main() {
     srand(time(0));
-    Player p(100, 50);
+    Player p(BASE_PLAYER_HP, BASE_PLAYER_DAMAGE);
     int sub = 1;
+    int level = 1;
     int attempts = 0;
 
-    while (sub <= 3 && attempts < 100){
+    while (level <= MAX_LEVEL && attempts < 100){
         attempts ++;
         p.restoreHP();
-        cout << "subWave " << sub << endl;
+        cout << "Level: " << level << " - Wave " << sub << endl;
 
-        vector<Enemy> enemies = createWave(1, sub);
+        vector<Enemy> enemies = createWave(level, sub);
 
         if (fightWave(p, enemies)) {
             sub ++;
+            if (sub > SUBLEVELS_PER_LEVEL) {
+                level ++;
+                sub = 1;
+            }
         } else {
             if (sub > 1){
                 sub --;
@@ -30,9 +36,9 @@ int main() {
         }
     }
 
-        if(sub > 3){
-            cout << "Dungeon cleared." << endl;
+        if (level > MAX_LEVEL){
+            cout << "Dungeon completed." << endl;
         } else {
-            cout << "Gave up." << endl;
+            cout << "You ran out of attempts." << endl;
         }
 }
