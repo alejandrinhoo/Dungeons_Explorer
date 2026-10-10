@@ -6,5 +6,6 @@
 
 int firstAlive(const std::vector<Enemy>& enemies);
 bool fightWave(Player& p, std::vector<Enemy>& enemies);
+std::vector<Enemy> createWave(int level, int sub);
 
 #endif //WAVE_H

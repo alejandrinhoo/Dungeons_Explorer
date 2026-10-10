@@ -1,4 +1,6 @@
 #include <iostream>
+#include <cstdlib>
+#include <ctime>
 #include <vector>
 #include <string>
 #include "Player.h"
@@ -7,6 +9,7 @@
 using namespace std;
 
 int main() {
+    srand(time(0));
     Player p(100, 50);
     int sub = 1;
     int attempts = 0;
@@ -16,8 +19,7 @@ int main() {
         p.restoreHP();
         cout << "subWave " << sub << endl;
 
-        vector<Enemy> enemies;
-        enemies.emplace_back(100, 40*sub);
+        vector<Enemy> enemies = createWave(1, sub);
 
         if (fightWave(p, enemies)) {
             sub ++;

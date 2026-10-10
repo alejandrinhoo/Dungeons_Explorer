@@ -29,3 +29,15 @@ bool fightWave(Player& p, vector<Enemy>& enemies){
     }
     return p.isAlive();
 }
+
+vector<Enemy> createWave(int level, int sub){
+    int count = (rand() % 3) + 1;
+    int hp = 20 + 5*level + 2*sub;
+    int dmg = 1 + level/2;
+
+    vector<Enemy> wave;
+    for (int i = 0; i < count; i++){
+        wave.emplace_back(hp, dmg);
+    }
+    return wave;
+}
