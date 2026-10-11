@@ -1,6 +1,11 @@
 #include <iostream>
 #include "Wave.h"
+#include <cmath>
 using namespace std;
+
+const int BASE_ENEMY_HP = 30;
+const int BASE_ENEMY_DAMAGE = 2;
+const double ENEMY_GROWTH = 1.40;
 
 int firstAlive(const vector<Enemy>& enemies){
     for (size_t i = 0; i < enemies.size(); i++){
@@ -40,8 +45,8 @@ bool fightWave(Player& p, vector<Enemy>& enemies, bool verbose){
 
 vector<Enemy> createWave(int level, int sub){
     int count = (rand() % 3) + 1;
-    int hp = 20 + 5*level + 2*sub;
-    int dmg = 1 + level/2;
+    int hp = static_cast<int>(BASE_ENEMY_HP * std::pow(ENEMY_GROWTH, level)) + 2*sub;
+    int dmg = static_cast<int>(BASE_ENEMY_DAMAGE * std::pow(ENEMY_GROWTH, level));
 
     vector<Enemy> wave;
     for (int i = 0; i < count; i++){

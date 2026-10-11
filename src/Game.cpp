@@ -2,6 +2,7 @@
 #include "Wave.h"
 #include "Config.h"
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
@@ -11,30 +12,30 @@ int playDungeon(Player& p, const Equipment& eq, int maxAttempts, bool verbose){
     int attempts = 0;
 
     while (level <= MAX_LEVEL && attempts < maxAttempts){
-            attempts ++;
+        attempts ++;
 
-            p.setBonuses(eq.getBonusHP(), eq.getBonusDamage());
-            p.restoreHP();
+        p.setBonuses(eq.getBonusHP(), eq.getBonusDamage());
+        p.restoreHP();
 
-            if (verbose){
-                cout << "Level: " << level << " - Wave " << sub << endl;
+        if (verbose){
+            cout << "Level: " << level << " - Wave " << sub << endl;
+        }
+
+        vector<Enemy> enemies = createWave(level, sub);
+
+        if (fightWave(p, enemies, verbose)) {
+            sub ++;
+
+            if (sub > SUBLEVELS_PER_LEVEL) {
+                level ++;
+                sub = 1;
             }
-
-            vector<Enemy> enemies = createWave(level, sub);
-
-            if (fightWave(p, enemies, verbose)) {
-                sub ++;
-
-                if (sub > SUBLEVELS_PER_LEVEL) {
-                    level ++;
-                    sub = 1;
-                }
-            } else {
-                if (sub > 1){
-                    sub --;
-                }
+        } else {
+            if (sub > 1){
+                sub --;
             }
         }
+    }
 
     if (level > MAX_LEVEL){
         return attempts;
